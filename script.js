@@ -1,13 +1,38 @@
-const initialTime = new Date();
-initialTime.setHours(0, 15, 0, 0); // Ajuste para 00:15
+const rainTimes = [
+    "04:15", "05:45", "06:15", "06:45", "08:15", "09:15", "09:45",
+    "10:45", "11:15", "12:45", "13:15", "14:15", "15:15", "15:45", 
+    "16:15", "18:15", "19:15", "21:15", "22:15", "22:45",
+    "23:15", "00:15", "01:15", "02:15", "03:15"
+];
 
-const now = new Date();
-if (now > initialTime) {
-    const difference = now.getTime() - initialTime.getTime();
-    const intervalsPassed = Math.floor(difference / (90 * 60 * 1000));
-    initialTime.setTime(initialTime.getTime() + intervalsPassed * 90 * 60 * 1000 + 90 * 60 * 1000);
+// Função para converter uma string "HH:MM" em um objeto Date para o mesmo dia
+function getTimeFromString(timeString) {
+    const now = new Date();
+    const [hours, minutes] = timeString.split(":").map(Number);
+    const time = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hours, minutes, 0, 0);
+    
+    // Se o horário já passou hoje, retorna o horário para o próximo dia
+    if (time < now) {
+        time.setDate(time.getDate() + 1);
+    }
+    
+    return time;
 }
 
+// Função para obter o próximo horário de chuva
+function getNextRainTime() {
+    const now = new Date();
+    for (let timeString of rainTimes) {
+        const rainTime = getTimeFromString(timeString);
+        if (rainTime > now) {
+            return rainTime;
+        }
+    }
+    // Caso todos os horários de hoje tenham passado, retorna o primeiro horário de amanhã
+    return getTimeFromString(rainTimes[0]);
+}
+
+// Função para formatar o tempo restante
 function formatTime(ms) {
     const totalSeconds = Math.floor(ms / 1000);
     const hours = Math.floor(totalSeconds / 3600);
@@ -16,6 +41,7 @@ function formatTime(ms) {
     return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 }
 
+// Função para adicionar entrada ao histórico
 function addHistoryEntry(time) {
     const historyList = document.getElementById('history-list');
     const listItem = document.createElement('li');
@@ -27,47 +53,55 @@ function startCountdown() {
     const countdownElement = document.getElementById("timer");
     const nextRainTimeElement = document.getElementById("next-rain-time");
     const alertSound = document.getElementById("alert-sound");
+    const rainMessageElement = document.getElementById("rain-message");
+
+    let nextRainTime = getNextRainTime();
 
     function updateTimer() {
         const now = new Date();
-        const timeDiff = initialTime - now;
+        const timeDiff = nextRainTime - now;
 
         if (timeDiff <= 0) {
             if (isAudioEnabled()) {
-                alertSound.currentTime = 0; // Reinicia o áudio
+                alertSound.currentTime = 0;
                 alertSound.play();
-                
-                // Para o áudio após 6 segundos
                 setTimeout(() => {
                     alertSound.pause();
-                }, 6000); // 6000 milissegundos = 6 segundos
+                }, 6000);
             }
 
-            const rainTime = initialTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            const rainTime = nextRainTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
             addHistoryEntry(rainTime);
-            initialTime.setTime(initialTime.getTime() + 75 * 60 * 1000);
+
+            // Atualiza o próximo horário de chuva
+            nextRainTime = getNextRainTime();
+
+            // Exibe a mensagem de chuva
+            rainMessageElement.textContent = "O Portão está aberto (Chovendo)";
+            rainMessageElement.style.display = 'block';
+
+            setTimeout(() => {
+                rainMessageElement.textContent = "Portão Está Fechado, Aguarde!";
+            }, 15 * 60 * 1000); // Após 15 minutos, muda a mensagem
         }
 
-        countdownElement.textContent = formatTime(Math.max(timeDiff, 0)); // Atualiza o timer
-        nextRainTimeElement.textContent = initialTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); // Atualiza horário da próxima chuva
+        countdownElement.textContent = formatTime(Math.max(timeDiff, 0));
+        nextRainTimeElement.textContent = nextRainTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     }
 
-    setInterval(updateTimer, 1000); // Atualiza a cada segundo
+    setInterval(updateTimer, 1000);
 }
 
-startCountdown(); // Iniciar o countdown
+startCountdown();
 
 document.getElementById('test-sound').addEventListener('click', () => {
     const alertSound = document.getElementById('alert-sound');
-    
     if (isAudioEnabled()) {
-        alertSound.currentTime = 0; // Reinicia o áudio
-        alertSound.play(); // Tocar o som
-
-        // Para o áudio após 5 segundos
+        alertSound.currentTime = 0;
+        alertSound.play();
         setTimeout(() => {
             alertSound.pause();
-        }, 5000); // 5000 milissegundos = 5 segundos
+        }, 5000);
     }
 });
 
