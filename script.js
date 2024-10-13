@@ -5,7 +5,7 @@ const now = new Date();
 if (now > initialTime) {
     const difference = now.getTime() - initialTime.getTime();
     const intervalsPassed = Math.floor(difference / (90 * 60 * 1000));
-    initialTime.setTime(initialTime.getTime() + intervalsPassed * 90 * 60 * 1000 + 75 * 60 * 1000);
+    initialTime.setTime(initialTime.getTime() + intervalsPassed * 90 * 60 * 1000 + 90 * 60 * 1000);
 }
 
 function formatTime(ms) {
