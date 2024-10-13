@@ -1,3 +1,4 @@
+/* Estilo geral */
 body {
     font-family: 'Roboto', sans-serif;
     display: flex;
@@ -5,89 +6,123 @@ body {
     align-items: center;
     justify-content: center;
     min-height: 100vh;
-    background-color: #f5f5f5;
+    background-color: #f5f5f5; /* Fundo claro */
     margin: 0;
+    color: #333; /* Texto padrão */
 }
+
+/* Estilo do título principal */
 h1 {
     font-size: 2.5em;
-    color: #333;
+    color: #4a4a4a; /* Texto escuro */
     margin-bottom: 20px;
 }
+
+/* Estilo do timer */
 #timer {
     font-size: 3em;
-    color: #ff6600;
+    color: #ff6600; /* Laranja para destaque */
     margin: 20px;
     padding: 10px 20px;
-    background-color: #fff;
+    background-color: #ffffff; /* Fundo branco */
     border-radius: 10px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Sombra leve */
 }
+
+/* Próxima chuva */
 #next-rain {
     font-size: 1.5em;
-    color: #333;
+    color: #333; /* Texto escuro */
     margin-top: 10px;
 }
+
+/* Estilo da mensagem de chuva */
+#rain-message {
+    font-size: 20px;
+    color: #ff6600; /* Laranja */
+    margin: 10px;
+    font-weight: bold;
+}
+
+/* Estilo do histórico de chuvas */
 #history {
     width: 80%;
     max-width: 600px;
-    background-color: #fff;
+    background-color: #ffffff; /* Fundo branco */
     margin-top: 30px;
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Sombra leve */
 }
+
 #history h2 {
     font-size: 1.5em;
-    color: #333;
+    color: #4a4a4a; /* Texto escuro */
     margin-bottom: 10px;
 }
+
 #history ul {
     list-style: none;
     padding: 0;
 }
+
 #history ul li {
-    background-color: #fafafa;
+    background-color: #f9f9f9; /* Fundo claro */
     margin-bottom: 10px;
     padding: 10px;
-    border-left: 4px solid #ff6600;
+    border-left: 4px solid #ff6600; /* Laranja para destaque */
     font-size: 1em;
-    color: #555;
+    color: #555; /* Texto escuro */
 }
-#history ul li:last-child {
-    margin-bottom: 0;
-}
+
+/* Botões */
 .controls {
     margin-top: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
+
 .controls button {
     font-size: 1em;
     padding: 10px;
     margin: 10px;
     border: none;
     border-radius: 5px;
-    background-color: #ff6600;
+    background-color: #ff6600; /* Laranja */
     color: white;
     cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
+.controls button:hover {
+    background-color: #ff3300; /* Cor ao passar o mouse */
+}
+
+/* Modo Escuro */
 body.dark-mode {
-    background-color: #1a1a1a;
-    color: #f5f5f5;
+    background-color: #1e1e1e; /* Fundo escuro */
+    color: #e0e0e0; /* Texto claro */
 }
 
 #timer.dark-mode {
-    background-color: #333;
-    color: #ff6600;
+    background-color: #2a2a2a; /* Fundo escuro */
+    color: #ff6600; /* Laranja */
 }
 
 #history.dark-mode {
-    background-color: #444;
+    background-color: #2a2a2a; /* Fundo escuro */
+}
+
+#history h2.dark-mode {
+    color: #e0e0e0; /* Texto claro */
 }
 
 #history ul li.dark-mode {
-    background-color: #555;
-    color: #ddd;
+    background-color: #333333; /* Fundo escuro */
+    color: #e0e0e0; /* Texto claro */
+}
+
+#rain-message.dark-mode {
+    color: #ff6600; /* Laranja para a mensagem */
 }
