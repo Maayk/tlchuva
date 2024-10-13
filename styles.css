@@ -72,3 +72,22 @@ h1 {
     color: white;
     cursor: pointer;
 }
+
+body.dark-mode {
+    background-color: #1a1a1a;
+    color: #f5f5f5;
+}
+
+#timer.dark-mode {
+    background-color: #333;
+    color: #ff6600;
+}
+
+#history.dark-mode {
+    background-color: #444;
+}
+
+#history ul li.dark-mode {
+    background-color: #555;
+    color: #ddd;
+}
